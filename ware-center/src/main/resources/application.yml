@@ -1,0 +1,30 @@
+server:
+  port: 8082
+  name: h3-ware
+eureka:
+  instance:
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+    hostname: h3-ware
+#   在FeignClient调用时需要通过ip访问
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: http://peer1.com:8761/eureka/,http://peer2.com:8762/eureka/,http://peer3.com:8763/eureka/
+
+spring:
+  application:
+    name: h3-ware
+#    spring.boot version在2.7.4已经全部关闭了端点，需要手动打开
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      base-path: /actuator
+    enabled-by-default: true
+  endpoint:
+    health:
+      show-details: always
